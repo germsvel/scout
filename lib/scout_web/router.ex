@@ -18,6 +18,8 @@ defmodule ScoutWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    resources "/users", UserController
   end
 
   # Other scopes may use custom stacks.

@@ -19,4 +19,17 @@ defmodule Scout.TimelineFixtures do
 
     post
   end
+
+  def create_post(attrs \\ %{}) do
+    {:ok, post} =
+      attrs
+      |> Enum.into(%{
+        body: "some body",
+        draft: true,
+        published_date: ~D[2024-02-17]
+      })
+      |> Scout.Timeline.create_post()
+
+    post
+  end
 end

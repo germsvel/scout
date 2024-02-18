@@ -2,7 +2,7 @@ defmodule ScoutWeb.PostLiveTest do
   use ScoutWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import Scout.TimelineFixtures
+  import Scout.TimelineFixtures, only: [post_fixture: 0]
 
   @create_attrs %{body: "some body", draft: true, published_date: "2024-02-17"}
   @update_attrs %{body: "some updated body", draft: false, published_date: "2024-02-18"}

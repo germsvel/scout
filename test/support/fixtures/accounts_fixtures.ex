@@ -19,4 +19,17 @@ defmodule Scout.AccountsFixtures do
 
     user
   end
+
+  def create_user(attrs \\ %{}) do
+    {:ok, user} =
+      attrs
+      |> Enum.into(%{
+        active_at: ~N[2024-02-16 15:08:00],
+        age: 42,
+        name: "some name"
+      })
+      |> Scout.Accounts.create_user()
+
+    user
+  end
 end

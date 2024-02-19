@@ -1,7 +1,7 @@
 defmodule ScoutWeb.UserControllerTest do
   use ScoutWeb.ConnCase
 
-  import Scout.AccountsFixtures
+  import Scout.AccountsFixtures, only: [user_fixture: 0]
 
   @create_attrs %{name: "some name", age: 42, active_at: ~N[2024-02-16 15:08:00]}
   @update_attrs %{name: "some updated name", age: 43, active_at: ~N[2024-02-17 15:08:00]}

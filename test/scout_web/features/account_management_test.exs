@@ -10,7 +10,7 @@ defmodule ScoutWeb.AccountManagementTest do
   test "lists all users", %{conn: conn} do
     conn
     |> visit(~p"/users")
-    |> assert_has("h1", "Listing Users")
+    |> assert_has("h1", text: "Listing Users")
   end
 
   describe "create user" do
@@ -20,8 +20,8 @@ defmodule ScoutWeb.AccountManagementTest do
       |> click_link("New User")
       |> fill_form("form", user: @create_attrs)
       |> click_button("Save User")
-      |> assert_has("#flash-group", "User created successfully")
-      |> assert_has("div", @create_attrs.name)
+      |> assert_has("#flash-group", text: "User created successfully")
+      |> assert_has("div", text: @create_attrs.name)
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -30,7 +30,7 @@ defmodule ScoutWeb.AccountManagementTest do
       |> click_link("New User")
       |> fill_form("form", user: @invalid_attrs)
       |> click_button("Save User")
-      |> assert_has("form", "can't be blank")
+      |> assert_has("form", text: "can't be blank")
     end
   end
 
@@ -43,8 +43,8 @@ defmodule ScoutWeb.AccountManagementTest do
       |> click_link("Edit user")
       |> fill_form("form", user: @update_attrs)
       |> click_button("Save User")
-      |> assert_has("#flash-group", "User updated successfully")
-      |> assert_has("div", @update_attrs.name)
+      |> assert_has("#flash-group", text: "User updated successfully")
+      |> assert_has("div", text: @update_attrs.name)
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -55,7 +55,7 @@ defmodule ScoutWeb.AccountManagementTest do
       |> click_link("Edit user")
       |> fill_form("form", user: @invalid_attrs)
       |> click_button("Save User")
-      |> assert_has("form", "can't be blank")
+      |> assert_has("form", text: "can't be blank")
     end
   end
 
@@ -65,7 +65,7 @@ defmodule ScoutWeb.AccountManagementTest do
     conn
     |> visit(~p"/users")
     |> click_link("Delete")
-    |> assert_has("#flash-group", "User deleted successfully")
-    |> refute_has("div", user.name)
+    |> assert_has("#flash-group", text: "User deleted successfully")
+    |> refute_has("div", text: user.name)
   end
 end

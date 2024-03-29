@@ -14,9 +14,9 @@ defmodule ScoutWeb.TimelinePostsTest do
 
       conn
       |> visit(~p"/posts")
-      |> assert_has("h1", "Listing Posts")
-      |> assert_has("#posts-#{post1.id}", post1.body)
-      |> assert_has("#posts-#{post2.id}", post2.body)
+      |> assert_has("h1", text: "Listing Posts")
+      |> assert_has("#posts-#{post1.id}", text: post1.body)
+      |> assert_has("#posts-#{post2.id}", text: post2.body)
     end
 
     test "user can save new post", %{conn: conn} do
@@ -25,13 +25,13 @@ defmodule ScoutWeb.TimelinePostsTest do
         |> visit(~p"/posts")
         |> click_button("a", "New Post")
         |> fill_form("#post-form", post: @invalid_attrs)
-        |> assert_has("#post-form", "can't be blank")
+        |> assert_has("#post-form", text: "can't be blank")
 
       session
       |> fill_form("#post-form", post: @create_attrs)
       |> click_button("Save Post")
-      |> assert_has("#flash-group", "Post created successfully")
-      |> assert_has("#posts", @create_attrs.body)
+      |> assert_has("#flash-group", text: "Post created successfully")
+      |> assert_has("#posts", text: @create_attrs.body)
     end
 
     test "user can update a post", %{conn: conn} do
@@ -42,13 +42,13 @@ defmodule ScoutWeb.TimelinePostsTest do
         |> visit(~p"/posts")
         |> click_link("#posts-#{post.id} a", "Edit")
         |> fill_form("#post-form", post: @invalid_attrs)
-        |> assert_has("#post-form", "can't be blank")
+        |> assert_has("#post-form", text: "can't be blank")
 
       session
       |> fill_form("#post-form", post: @update_attrs)
       |> click_button("Save Post")
-      |> assert_has("#flash-group", "Post updated successfully")
-      |> assert_has("#posts", @update_attrs.body)
+      |> assert_has("#flash-group", text: "Post updated successfully")
+      |> assert_has("#posts", text: @update_attrs.body)
     end
   end
 
@@ -58,8 +58,8 @@ defmodule ScoutWeb.TimelinePostsTest do
 
       conn
       |> visit(~p"/posts/#{post}")
-      |> assert_has("h1", "Post #{post.id}")
-      |> assert_has("div", post.body)
+      |> assert_has("h1", text: "Post #{post.id}")
+      |> assert_has("div", text: post.body)
     end
 
     test "updates post within modal", %{conn: conn} do
@@ -70,13 +70,13 @@ defmodule ScoutWeb.TimelinePostsTest do
         |> visit(~p"/posts/#{post}")
         |> click_link("Edit")
         |> fill_form("#post-form", post: @invalid_attrs)
-        |> assert_has("#post-form", "can't be blank")
+        |> assert_has("#post-form", text: "can't be blank")
 
       session
       |> fill_form("#post-form", post: @update_attrs)
       |> click_button("Save Post")
-      |> assert_has("#flash-group", "Post updated successfully")
-      |> assert_has("div", @update_attrs.body)
+      |> assert_has("#flash-group", text: "Post updated successfully")
+      |> assert_has("div", text: @update_attrs.body)
     end
   end
 end

@@ -23,29 +23,34 @@ defmodule ScoutWeb.TimelinePostsTest do
       session =
         conn
         |> visit(~p"/posts")
-        |> click_button("a", "New Post")
-        |> fill_form("#post-form", post: @invalid_attrs)
+        |> click_link("New Post")
+        |> fill_in("Body", with: @invalid_attrs.body)
+        |> fill_in("Published date", with: @invalid_attrs.published_date)
         |> assert_has("#post-form", text: "can't be blank")
 
       session
-      |> fill_form("#post-form", post: @create_attrs)
+      |> fill_in("Body", with: @create_attrs.body)
+      |> fill_in("Published date", with: @create_attrs.published_date)
+      |> check("Draft")
       |> click_button("Save Post")
       |> assert_has("#flash-group", text: "Post created successfully")
       |> assert_has("#posts", text: @create_attrs.body)
     end
 
     test "user can update a post", %{conn: conn} do
-      post = create_post(body: "Some post")
+      create_post(body: "Some post")
 
       session =
         conn
         |> visit(~p"/posts")
-        |> click_link("#posts-#{post.id} a", "Edit")
-        |> fill_form("#post-form", post: @invalid_attrs)
+        |> click_link("Edit")
+        |> fill_in("Body", with: @invalid_attrs.body)
+        |> fill_in("Published date", with: @invalid_attrs.published_date)
         |> assert_has("#post-form", text: "can't be blank")
 
       session
-      |> fill_form("#post-form", post: @update_attrs)
+      |> fill_in("Body", with: @update_attrs.body)
+      |> fill_in("Published date", with: @update_attrs.published_date)
       |> click_button("Save Post")
       |> assert_has("#flash-group", text: "Post updated successfully")
       |> assert_has("#posts", text: @update_attrs.body)
@@ -69,11 +74,13 @@ defmodule ScoutWeb.TimelinePostsTest do
         conn
         |> visit(~p"/posts/#{post}")
         |> click_link("Edit")
-        |> fill_form("#post-form", post: @invalid_attrs)
+        |> fill_in("Body", with: @invalid_attrs.body)
+        |> fill_in("Published date", with: @invalid_attrs.published_date)
         |> assert_has("#post-form", text: "can't be blank")
 
       session
-      |> fill_form("#post-form", post: @update_attrs)
+      |> fill_in("Body", with: @update_attrs.body)
+      |> fill_in("Published date", with: @update_attrs.published_date)
       |> click_button("Save Post")
       |> assert_has("#flash-group", text: "Post updated successfully")
       |> assert_has("div", text: @update_attrs.body)

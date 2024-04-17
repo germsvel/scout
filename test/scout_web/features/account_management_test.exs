@@ -18,7 +18,9 @@ defmodule ScoutWeb.AccountManagementTest do
       conn
       |> visit(~p"/users")
       |> click_link("New User")
-      |> fill_form("form", user: @create_attrs)
+      |> fill_in("Name", with: @create_attrs.name)
+      |> fill_in("Age", with: @create_attrs.age)
+      |> fill_in("Active at", with: @create_attrs.active_at)
       |> click_button("Save User")
       |> assert_has("#flash-group", text: "User created successfully")
       |> assert_has("div", text: @create_attrs.name)
@@ -28,7 +30,9 @@ defmodule ScoutWeb.AccountManagementTest do
       conn
       |> visit(~p"/users")
       |> click_link("New User")
-      |> fill_form("form", user: @invalid_attrs)
+      |> fill_in("Name", with: @invalid_attrs.name)
+      |> fill_in("Age", with: @invalid_attrs.age)
+      |> fill_in("Active at", with: @invalid_attrs.active_at)
       |> click_button("Save User")
       |> assert_has("form", text: "can't be blank")
     end
@@ -41,7 +45,9 @@ defmodule ScoutWeb.AccountManagementTest do
       conn
       |> visit(~p"/users/#{user}")
       |> click_link("Edit user")
-      |> fill_form("form", user: @update_attrs)
+      |> fill_in("Name", with: @update_attrs.name)
+      |> fill_in("Age", with: @update_attrs.age)
+      |> fill_in("Active at", with: @update_attrs.active_at)
       |> click_button("Save User")
       |> assert_has("#flash-group", text: "User updated successfully")
       |> assert_has("div", text: @update_attrs.name)
@@ -53,7 +59,9 @@ defmodule ScoutWeb.AccountManagementTest do
       conn
       |> visit(~p"/users/#{user}")
       |> click_link("Edit user")
-      |> fill_form("form", user: @invalid_attrs)
+      |> fill_in("Name", with: @invalid_attrs.name)
+      |> fill_in("Age", with: @invalid_attrs.age)
+      |> fill_in("Active at", with: @invalid_attrs.active_at)
       |> click_button("Save User")
       |> assert_has("form", text: "can't be blank")
     end

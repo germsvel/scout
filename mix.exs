@@ -58,6 +58,7 @@ defmodule Scout.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
+      {:recon, "~> 2.5.3"},
       {:bandit, "~> 1.2"}
     ]
   end

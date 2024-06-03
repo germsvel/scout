@@ -59,7 +59,8 @@ defmodule Scout.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:recon, "~> 2.5.3"},
-      {:bandit, "~> 1.2"}
+      {:bandit, "~> 1.2"},
+      {:playwright, "~> 1.18.0-alpha.1", only: [:dev, :test]}
     ]
   end
 

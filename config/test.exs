@@ -34,3 +34,5 @@ config :logger, level: :warning
 config :phoenix, :plug_init_mode, :runtime
 
 config :phoenix_test, :endpoint, ScoutWeb.Endpoint
+
+config :playwright, LaunchOptions, headless: false

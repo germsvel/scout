@@ -6,6 +6,7 @@ defmodule ScoutWeb.PlaywrightPostsTests do
   import Scout.TimelineFixtures
 
   alias Playwright.Page
+  alias Playwright.Locator
 
   describe "Index" do
     test "posts page shows all posts", %{page: page} do
@@ -23,19 +24,30 @@ defmodule ScoutWeb.PlaywrightPostsTests do
       assert Page.text_content(page, "#posts-#{post2.id}") =~ post2.body
     end
 
-    @create_attrs %{body: "some body", draft: true, published_date: "2024-02-17"}
-
     test "user can save new post", %{page: page} do
       url = ScoutWeb.Endpoint.url() <> "/posts"
 
       page |> Page.goto(url)
 
-      Page.click(page, "a", %{text: "New Post"})
+      Page.click(page, "#new-post-button", %{text: "New Post"})
 
-      # |> click_link("New Post")
-      # |> fill_in("Body", with: @invalid_attrs.body)
-      # |> fill_in("Published date", with: @invalid_attrs.published_date)
-      # |> assert_has("#post-form", text: "can't be blank")
+      :ok =
+        page
+        |> Page.locator("#post-form [name='post[body]']")
+        |> Locator.fill("something")
+
+      :ok =
+        page
+        |> Page.locator("#post-form [name='post[published_date]']")
+        |> Locator.fill("2024-02-17")
+
+      Page.click(page, "#save-post-button", %{text: "Save Post"})
+
+      # how do we wait?
+      Process.sleep(1000)
+
+      assert Page.text_content(page, "#posts") =~ "something"
+      assert Page.text_content(page, "[role=alert]") =~ "Post created successfully"
     end
   end
 end

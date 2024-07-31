@@ -23,7 +23,7 @@ defmodule ScoutWeb.PostLive.FormComponent do
         <.input field={@form[:draft]} type="checkbox" label="Draft" />
         <.input field={@form[:published_date]} type="date" label="Published date" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Post</.button>
+          <.button id="save-post-button" phx-disable-with="Saving...">Save Post</.button>
         </:actions>
       </.simple_form>
     </div>

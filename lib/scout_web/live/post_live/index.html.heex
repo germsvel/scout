@@ -19,7 +19,7 @@
     <div class="sr-only">
       <.link navigate={~p"/posts/#{post}"}>Show</.link>
     </div>
-    <.link patch={~p"/posts/#{post}/edit"}>Edit</.link>
+    <.link data-role="edit-post" patch={~p"/posts/#{post}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, post}}>
     <.link

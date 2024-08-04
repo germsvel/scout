@@ -29,7 +29,7 @@ defmodule ScoutWeb.PlaywrightPostsTests do
 
       page |> Page.goto(url)
 
-      Page.click(page, "#new-post-button", %{text: "New Post"})
+      Page.click(page, "#new-post-button")
 
       :ok =
         page
@@ -48,6 +48,32 @@ defmodule ScoutWeb.PlaywrightPostsTests do
 
       assert Page.text_content(page, "#posts") =~ "something"
       assert Page.text_content(page, "[role=alert]") =~ "Post created successfully"
+    end
+
+    test "user can update a post", %{page: page} do
+      create_post(body: "Some post")
+
+      url = ScoutWeb.Endpoint.url() <> "/posts"
+
+      page |> Page.goto(url)
+
+      :ok =
+        page
+        |> Page.locator("a[data-role='edit-post']")
+        |> Locator.click()
+
+      :ok =
+        page
+        |> Page.locator("#post-form [name='post[body]']")
+        |> Locator.fill("Some other post")
+
+      Page.click(page, "#save-post-button", %{text: "Save Post"})
+
+      # how do we wait?
+      Process.sleep(1000)
+
+      assert Page.text_content(page, "#posts") =~ "Some other post"
+      assert Page.text_content(page, "[role=alert]") =~ "Post updated successfully"
     end
   end
 end

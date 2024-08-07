@@ -29,7 +29,11 @@ defmodule ScoutWeb.PlaywrightPostsTests do
 
       page |> Page.goto(url)
 
-      Page.click(page, "#new-post-button")
+      # NOTE: this is a legacy text locator
+      # https://playwright.dev/python/docs/other-locators#legacy-text-locator
+      # But playwright-elixir doesn't support the new get_by_text yet
+      :ok =
+        Page.click(page, "text='New Post'")
 
       :ok =
         page

@@ -45,13 +45,19 @@ defmodule ScoutWeb.PlaywrightPostsTests do
         |> Page.locator("#post-form [name='post[published_date]']")
         |> Locator.fill("2024-02-17")
 
-      Page.click(page, "#save-post-button", %{text: "Save Post"})
+      Page.click(page, "text='Save Post'")
 
-      # how do we wait?
-      Process.sleep(1000)
+      assert :ok =
+               page
+               |> Page.locator("#posts")
+               |> Locator.locator("text='something'")
+               |> Locator.wait_for(%{visible: true})
 
-      assert Page.text_content(page, "#posts") =~ "something"
-      assert Page.text_content(page, "[role=alert]") =~ "Post created successfully"
+      assert :ok =
+               page
+               |> Page.locator("[role=alert]")
+               |> Locator.locator("text='Post created successfully'")
+               |> Locator.wait_for(%{visible: true})
     end
 
     test "user can update a post", %{page: page} do
@@ -73,11 +79,17 @@ defmodule ScoutWeb.PlaywrightPostsTests do
 
       Page.click(page, "#save-post-button", %{text: "Save Post"})
 
-      # how do we wait?
-      Process.sleep(1000)
+      assert :ok =
+               page
+               |> Page.locator("#posts")
+               |> Locator.locator("text='Some other post'")
+               |> Locator.wait_for(%{visible: true})
 
-      assert Page.text_content(page, "#posts") =~ "Some other post"
-      assert Page.text_content(page, "[role=alert]") =~ "Post updated successfully"
+      assert :ok =
+               page
+               |> Page.locator("[role=alert]")
+               |> Locator.locator("text='Post updated successfully'")
+               |> Locator.wait_for(%{visible: true})
     end
   end
 end

@@ -32,8 +32,11 @@ defmodule ScoutWeb.PlaywrightPostsTests do
       # NOTE: this is a legacy text locator
       # https://playwright.dev/python/docs/other-locators#legacy-text-locator
       # But playwright-elixir doesn't support the new get_by_text yet
+      #
+      # We can also chain selectors (also doing it in deprecated way)
+      # https://playwright.dev/python/docs/other-locators#chaining-selectors
       :ok =
-        Page.click(page, "text='New Post'")
+        Page.click(page, "button >> text='New Post'")
 
       :ok =
         page
@@ -45,7 +48,7 @@ defmodule ScoutWeb.PlaywrightPostsTests do
         |> Page.locator("#post-form [name='post[published_date]']")
         |> Locator.fill("2024-02-17")
 
-      Page.click(page, "text='Save Post'")
+      Page.click(page, "button >> text='Save Post'")
 
       assert :ok =
                page

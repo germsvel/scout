@@ -53,7 +53,7 @@ defmodule ScoutWeb.PlaywrightPostsTests do
       assert :ok =
                page
                |> Page.locator("#posts")
-               |> Locator.locator("text='something'")
+               |> Locator.locator("has_text='something'")
                |> Locator.wait_for(%{visible: true})
 
       assert :ok =

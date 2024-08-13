@@ -16,6 +16,22 @@ defmodule ScoutWeb.PostLiveTest do
   describe "Index" do
     setup [:create_post]
 
+    test "user can navigate to their own posts", %{conn: conn} do
+      {:ok, view, _html} = live(conn, ~p"/posts")
+
+      {:error, {:redirect, %{to: path}}} =
+        view
+        |> element("a", "Users")
+        |> render_click()
+
+      html =
+        conn
+        |> get(path)
+        |> html_response(200)
+
+      assert html =~ "Users"
+    end
+
     test "lists all posts", %{conn: conn, post: post} do
       {:ok, _index_live, html} = live(conn, ~p"/posts")
 
@@ -44,6 +60,27 @@ defmodule ScoutWeb.PostLiveTest do
       html = render(index_live)
       assert html =~ "Post created successfully"
       assert html =~ "some body"
+    end
+
+    test "saves new post with has_element?", %{conn: conn} do
+      {:ok, index_live, _html} = live(conn, ~p"/posts")
+
+      assert index_live |> element("a", "New Post") |> render_click() =~
+               "New Post"
+
+      assert_patch(index_live, ~p"/posts/new")
+
+      assert index_live
+             |> form("#post-form", post: @invalid_attrs)
+             |> render_change() =~ "can&#39;t be blank"
+
+      assert index_live
+             |> form("#post-form", post: @create_attrs)
+             |> render_submit()
+
+      assert_patch(index_live, ~p"/posts")
+
+      assert has_element?(index_live, "[role=alert]", "Post created successfully")
     end
 
     test "updates post in listing", %{conn: conn, post: post} do

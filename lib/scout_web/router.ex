@@ -17,11 +17,10 @@ defmodule ScoutWeb.Router do
   scope "/", ScoutWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
-
     resources "/users", UserController
 
-    live_session :posts do
+    live_session :posts, on_mount: ScoutWeb.AllowEctoSandbox do
+      live "/", PostLive.Index, :index
       live "/posts", PostLive.Index, :index
       live "/posts/new", PostLive.Index, :new
       live "/posts/:id/edit", PostLive.Index, :edit

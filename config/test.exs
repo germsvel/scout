@@ -18,7 +18,7 @@ config :scout, Scout.Repo,
 config :scout, ScoutWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "K554/D1mkH8jMowxfqOMNRcbBxGW8h5vwcS2tiLQGkW3qj9zXfclqZ9a2pKvrq27",
-  server: false
+  server: true
 
 # In test we don't send emails.
 config :scout, Scout.Mailer, adapter: Swoosh.Adapters.Test
@@ -33,3 +33,6 @@ config :logger, level: :warning
 config :phoenix, :plug_init_mode, :runtime
 
 config :phoenix_test, :endpoint, ScoutWeb.Endpoint
+
+config :scout, :sandbox, Ecto.Adapters.SQL.Sandbox
+config :wallaby, otp_app: :scout, js_logger: false

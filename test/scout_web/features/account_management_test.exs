@@ -8,9 +8,12 @@ defmodule ScoutWeb.AccountManagementTest do
   @invalid_attrs %{name: nil, age: nil, active_at: nil}
 
   test "lists all users", %{conn: conn} do
+    user = create_user()
+
     conn
     |> visit(~p"/users")
     |> assert_has("h1", text: "Listing Users")
+    |> assert_has("#users", text: user.name)
   end
 
   describe "create user" do

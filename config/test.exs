@@ -35,4 +35,4 @@ config :phoenix, :plug_init_mode, :runtime
 config :phoenix_test, :endpoint, ScoutWeb.Endpoint
 
 config :scout, :sandbox, Ecto.Adapters.SQL.Sandbox
-config :wallaby, otp_app: :scout
+config :wallaby, otp_app: :scout, js_logger: false

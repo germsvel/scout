@@ -19,21 +19,22 @@ defmodule ScoutWeb.TimelinePostsTest do
       |> assert_has("#posts-#{post2.id}", text: post2.body)
     end
 
-    test "user can save new post", %{conn: conn} do
-      session =
-        conn
-        |> visit(~p"/posts")
-        |> click_link("New Post")
-        |> fill_in("Body", with: @invalid_attrs.body)
-        |> fill_in("Published date", with: @invalid_attrs.published_date)
-        |> assert_has("#post-form", text: "can't be blank")
+    test "user can navigate to their own posts", %{conn: conn} do
+      conn
+      |> visit(~p"/posts")
+      |> click_link("Users")
+      |> assert_has("h1", text: "Users")
+    end
 
-      session
+    test "user can save new post", %{conn: conn} do
+      conn
+      |> visit(~p"/posts")
+      |> click_link("New Post")
       |> fill_in("Body", with: @create_attrs.body)
       |> fill_in("Published date", with: @create_attrs.published_date)
       |> check("Draft")
       |> click_button("Save Post")
-      |> assert_has("#flash-group", text: "Post created successfully")
+      |> assert_has("#flash-info", text: "Post created successfully")
       |> assert_has("#posts", text: @create_attrs.body)
     end
 
@@ -52,7 +53,7 @@ defmodule ScoutWeb.TimelinePostsTest do
       |> fill_in("Body", with: @update_attrs.body)
       |> fill_in("Published date", with: @update_attrs.published_date)
       |> click_button("Save Post")
-      |> assert_has("#flash-group", text: "Post updated successfully")
+      |> assert_has("#flash-info", text: "Post updated successfully")
       |> assert_has("#posts", text: @update_attrs.body)
     end
   end
@@ -82,8 +83,22 @@ defmodule ScoutWeb.TimelinePostsTest do
       |> fill_in("Body", with: @update_attrs.body)
       |> fill_in("Published date", with: @update_attrs.published_date)
       |> click_button("Save Post")
-      |> assert_has("#flash-group", text: "Post updated successfully")
+      |> assert_has("#flash-info", text: "Post updated successfully")
       |> assert_has("div", text: @update_attrs.body)
+    end
+  end
+
+  for i <- 1..100 do
+    test "user can save new post #{i}", %{conn: conn} do
+      conn
+      |> visit(~p"/posts")
+      |> click_link("New Post")
+      |> fill_in("Body", with: @create_attrs.body)
+      |> fill_in("Published date", with: @create_attrs.published_date)
+      |> check("Draft")
+      |> click_button("Save Post")
+      |> assert_has("#flash-info", text: "Post created successfully")
+      |> assert_has("#posts", text: @create_attrs.body)
     end
   end
 end

@@ -21,7 +21,7 @@ defmodule ScoutWeb.Router do
 
     resources "/users", UserController
 
-    live_session :posts do
+    live_session :posts, on_mount: ScoutWeb.AllowEctoSandbox do
       live "/posts", PostLive.Index, :index
       live "/posts/new", PostLive.Index, :new
       live "/posts/:id/edit", PostLive.Index, :edit

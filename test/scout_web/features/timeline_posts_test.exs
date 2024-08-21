@@ -3,10 +3,6 @@ defmodule ScoutWeb.TimelinePostsTest do
 
   import Scout.TimelineFixtures
 
-  @create_attrs %{body: "some body", draft: true, published_date: "2024-02-17"}
-  @update_attrs %{body: "some updated body", draft: false, published_date: "2024-02-18"}
-  @invalid_attrs %{body: nil, draft: false, published_date: nil}
-
   describe "Index" do
     test "posts page shows all posts", %{conn: conn} do
       post1 = create_post(body: "Post 1")
@@ -27,34 +23,56 @@ defmodule ScoutWeb.TimelinePostsTest do
     end
 
     test "user can save new post", %{conn: conn} do
+      create_attrs = %{body: "some body", published_date: "2024-02-17"}
+
       conn
       |> visit(~p"/posts")
       |> click_link("New Post")
-      |> fill_in("Body", with: @create_attrs.body)
-      |> fill_in("Published date", with: @create_attrs.published_date)
+      |> fill_in("Body", with: create_attrs.body)
+      |> fill_in("Published date", with: create_attrs.published_date)
       |> check("Draft")
       |> click_button("Save Post")
       |> assert_has("#flash-info", text: "Post created successfully")
-      |> assert_has("#posts", text: @create_attrs.body)
+      |> assert_has("#posts", text: create_attrs.body)
+    end
+
+    for i <- 1..100 do
+      test "user can save new post #{i}", %{conn: conn} do
+        create_attrs = %{body: "some body", published_date: "2024-02-17"}
+
+        conn
+        |> visit(~p"/posts")
+        |> click_link("New Post")
+        |> fill_in("Body", with: create_attrs.body)
+        |> fill_in("Published date", with: create_attrs.published_date)
+        |> check("Draft")
+        |> click_button("Save Post")
+        |> assert_has("#flash-info", text: "Post created successfully")
+        |> assert_has("#posts", text: create_attrs.body)
+      end
     end
 
     test "user can update a post", %{conn: conn} do
       create_post(body: "Some post")
 
-      session =
-        conn
-        |> visit(~p"/posts")
-        |> click_link("Edit")
-        |> fill_in("Body", with: @invalid_attrs.body)
-        |> fill_in("Published date", with: @invalid_attrs.published_date)
-        |> assert_has("#post-form", text: "can't be blank")
-
-      session
-      |> fill_in("Body", with: @update_attrs.body)
-      |> fill_in("Published date", with: @update_attrs.published_date)
+      conn
+      |> visit(~p"/posts")
+      |> click_link("Edit")
+      |> fill_in("Body", with: "Some other post")
       |> click_button("Save Post")
       |> assert_has("#flash-info", text: "Post updated successfully")
-      |> assert_has("#posts", text: @update_attrs.body)
+      |> assert_has("#posts", text: "Some other post")
+    end
+
+    test "shows error when updating a post with invalid args", %{conn: conn} do
+      create_post(body: "Some post")
+
+      conn
+      |> visit(~p"/posts")
+      |> click_link("Edit")
+      |> fill_in("Body", with: nil)
+      |> fill_in("Published date", with: nil)
+      |> assert_has("#post-form", text: "can't be blank")
     end
   end
 
@@ -69,36 +87,26 @@ defmodule ScoutWeb.TimelinePostsTest do
     end
 
     test "updates post within modal", %{conn: conn} do
-      post = create_post()
+      post = create_post(body: "Some post")
 
-      session =
-        conn
-        |> visit(~p"/posts/#{post}")
-        |> click_link("Edit")
-        |> fill_in("Body", with: @invalid_attrs.body)
-        |> fill_in("Published date", with: @invalid_attrs.published_date)
-        |> assert_has("#post-form", text: "can't be blank")
-
-      session
-      |> fill_in("Body", with: @update_attrs.body)
-      |> fill_in("Published date", with: @update_attrs.published_date)
+      conn
+      |> visit(~p"/posts/#{post}")
+      |> click_link("Edit")
+      |> fill_in("Body", with: "Some other post")
       |> click_button("Save Post")
       |> assert_has("#flash-info", text: "Post updated successfully")
-      |> assert_has("div", text: @update_attrs.body)
+      |> assert_has("div", text: "Some other post")
     end
-  end
 
-  for i <- 1..100 do
-    test "user can save new post #{i}", %{conn: conn} do
+    test "shows errors when updating with invalid arguments", %{conn: conn} do
+      post = create_post()
+
       conn
-      |> visit(~p"/posts")
-      |> click_link("New Post")
-      |> fill_in("Body", with: @create_attrs.body)
-      |> fill_in("Published date", with: @create_attrs.published_date)
-      |> check("Draft")
-      |> click_button("Save Post")
-      |> assert_has("#flash-info", text: "Post created successfully")
-      |> assert_has("#posts", text: @create_attrs.body)
+      |> visit(~p"/posts/#{post}")
+      |> click_link("Edit")
+      |> fill_in("Body", with: nil)
+      |> fill_in("Published date", with: nil)
+      |> assert_has("#post-form", text: "can't be blank")
     end
   end
 end

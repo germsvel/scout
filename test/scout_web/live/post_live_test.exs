@@ -19,16 +19,13 @@ defmodule ScoutWeb.PostLiveTest do
     test "user can navigate to their own posts", %{conn: conn} do
       {:ok, view, _html} = live(conn, ~p"/posts")
 
-      {:error, {:redirect, %{to: path}}} =
+      {:ok, conn} =
         view
         |> element("a", "Users")
         |> render_click()
+        |> follow_redirect(conn)
 
-      html =
-        conn
-        |> get(path)
-        |> html_response(200)
-
+      html = html_response(conn, 200)
       assert html =~ "Users"
     end
 
@@ -37,6 +34,24 @@ defmodule ScoutWeb.PostLiveTest do
 
       assert html =~ "Listing Posts"
       assert html =~ post.body
+    end
+
+    test "user can create new post", %{conn: conn} do
+      {:ok, view, _html} = live(conn, ~p"/posts/new")
+
+      view
+      |> form("#post-form",
+        post: %{
+          body: "some body",
+          draft: true,
+          published_date: "2024-02-17"
+        }
+      )
+      |> render_submit()
+
+      html = render(view)
+      assert html =~ "Post created successfully"
+      assert html =~ "some body"
     end
 
     test "saves new post", %{conn: conn} do

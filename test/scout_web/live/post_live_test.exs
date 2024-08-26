@@ -51,7 +51,7 @@ defmodule ScoutWeb.PostLiveTest do
       assert has_element?(view, "#posts", "some body")
     end
 
-    test "simple navigation + post creation", %{conn: conn} do
+    test "user can save post (simple flow)", %{conn: conn} do
       {:ok, view, _html} = live(conn, ~p"/posts")
 
       assert view |> element("a", "New Post") |> render_click() =~
@@ -74,7 +74,7 @@ defmodule ScoutWeb.PostLiveTest do
       assert html =~ "some body"
     end
 
-    test "user can navigate to their own posts", %{conn: conn} do
+    test "user can navigate to their own posts (LiveView -> dead view)", %{conn: conn} do
       {:ok, view, _html} = live(conn, ~p"/posts")
 
       {:ok, conn} =

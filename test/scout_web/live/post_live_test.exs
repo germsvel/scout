@@ -13,7 +13,7 @@ defmodule ScoutWeb.PostLiveTest do
     %{post: post}
   end
 
-  describe "Pain points" do
+  describe "Pain points 🤕" do
     setup [:create_post]
 
     test "user can create new post", %{conn: conn} do

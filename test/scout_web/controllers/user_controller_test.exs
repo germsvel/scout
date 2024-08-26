@@ -7,6 +7,24 @@ defmodule ScoutWeb.UserControllerTest do
   @update_attrs %{name: "some updated name", age: 43, active_at: ~N[2024-02-17 15:08:00]}
   @invalid_attrs %{name: nil, age: nil, active_at: nil}
 
+  describe "Pain points 😰" do
+    test "lists all users", %{conn: conn} do
+      conn = get(conn, ~p"/users")
+
+      assert html_response(conn, 200) =~ "Listing Users"
+    end
+
+    test "redirects to show when data is valid", %{conn: conn} do
+      conn = post(conn, ~p"/users", user: @create_attrs)
+
+      assert %{id: id} = redirected_params(conn)
+      assert redirected_to(conn) == ~p"/users/#{id}"
+
+      conn = get(conn, ~p"/users/#{id}")
+      assert html_response(conn, 200) =~ "User #{id}"
+    end
+  end
+
   describe "index" do
     test "lists all users", %{conn: conn} do
       conn = get(conn, ~p"/users")

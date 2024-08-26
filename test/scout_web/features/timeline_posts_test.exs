@@ -3,25 +3,7 @@ defmodule ScoutWeb.TimelinePostsTest do
 
   import Scout.TimelineFixtures
 
-  describe "Index" do
-    test "posts page shows all posts", %{conn: conn} do
-      post1 = create_post(body: "Post 1")
-      post2 = create_post(body: "Post 2")
-
-      conn
-      |> visit(~p"/posts")
-      |> assert_has("h1", text: "Listing Posts")
-      |> assert_has("#posts-#{post1.id}", text: post1.body)
-      |> assert_has("#posts-#{post2.id}", text: post2.body)
-    end
-
-    test "user can navigate to their own posts", %{conn: conn} do
-      conn
-      |> visit(~p"/posts")
-      |> click_link("Users")
-      |> assert_has("h1", text: "Users")
-    end
-
+  describe "No pain! 🤩" do
     test "user can save new post", %{conn: conn} do
       create_attrs = %{body: "some body", published_date: "2024-02-17"}
 
@@ -34,6 +16,13 @@ defmodule ScoutWeb.TimelinePostsTest do
       |> click_button("Save Post")
       |> assert_has("#flash-info", text: "Post created successfully")
       |> assert_has("#posts", text: create_attrs.body)
+    end
+
+    test "user can see their posts (LiveView -> dead view)", %{conn: conn} do
+      conn
+      |> visit(~p"/posts")
+      |> click_link("Users")
+      |> assert_has("h1", text: "Users")
     end
 
     for i <- 1..100 do
@@ -50,6 +39,33 @@ defmodule ScoutWeb.TimelinePostsTest do
         |> assert_has("#flash-info", text: "Post created successfully")
         |> assert_has("#posts", text: create_attrs.body)
       end
+    end
+  end
+
+  describe "Index" do
+    test "posts page shows all posts", %{conn: conn} do
+      post1 = create_post(body: "Post 1")
+      post2 = create_post(body: "Post 2")
+
+      conn
+      |> visit(~p"/posts")
+      |> assert_has("h1", text: "Listing Posts")
+      |> assert_has("#posts-#{post1.id}", text: post1.body)
+      |> assert_has("#posts-#{post2.id}", text: post2.body)
+    end
+
+    test "user can save new post", %{conn: conn} do
+      create_attrs = %{body: "some body", published_date: "2024-02-17"}
+
+      conn
+      |> visit(~p"/posts")
+      |> click_link("New Post")
+      |> fill_in("Body", with: create_attrs.body)
+      |> fill_in("Published date", with: create_attrs.published_date)
+      |> check("Draft")
+      |> click_button("Save Post")
+      |> assert_has("#flash-info", text: "Post created successfully")
+      |> assert_has("#posts", text: create_attrs.body)
     end
 
     test "user can update a post", %{conn: conn} do

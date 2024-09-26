@@ -21,6 +21,8 @@ defmodule ScoutWeb.Router do
 
     resources "/users", UserController
 
+    live "/alpha", AlphaLive
+
     live_session :posts do
       live "/posts", PostLive.Index, :index
       live "/posts/new", PostLive.Index, :new

@@ -9,7 +9,7 @@ defmodule ScoutWeb.CounterLive do
           <.icon name="hero-minus" />
         </.button>
 
-        <div id="count" class="font-extrabold text-3xl"><%= @count %></div>
+        <div id="count" class="font-extrabold text-3xl">{@count}</div>
 
         <.button
           id="increment"

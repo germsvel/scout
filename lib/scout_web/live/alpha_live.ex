@@ -15,7 +15,7 @@ defmodule ScoutWeb.AlphaLive do
           <article class="upload-entry">
             <figure>
               <.live_img_preview entry={entry} />
-              <figcaption><%= entry.client_name %></figcaption>
+              <figcaption>{entry.client_name}</figcaption>
             </figure>
           </article>
         <% end %>
@@ -24,7 +24,7 @@ defmodule ScoutWeb.AlphaLive do
       <div id="result">
         <h2 class="text-2xl">Results</h2>
         <%= for upload <- @uploaded_files do %>
-          <div data-role="upload"><%= upload %></div>
+          <div data-role="upload">{upload}</div>
         <% end %>
       </div>
     </div>

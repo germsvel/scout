@@ -1,5 +1,5 @@
 <.header>
-  Post <%= @post.id %>
+  Post {@post.id}
   <:subtitle>This is a post record from your database.</:subtitle>
   <:actions>
     <.link patch={~p"/posts/#{@post}/show/edit"} phx-click={JS.push_focus()}>
@@ -9,9 +9,9 @@
 </.header>
 
 <.list>
-  <:item title="Body"><%= @post.body %></:item>
-  <:item title="Draft"><%= @post.draft %></:item>
-  <:item title="Published date"><%= @post.published_date %></:item>
+  <:item title="Body">{@post.body}</:item>
+  <:item title="Draft">{@post.draft}</:item>
+  <:item title="Published date">{@post.published_date}</:item>
 </.list>
 
 <.back navigate={~p"/posts"}>Back to posts</.back>

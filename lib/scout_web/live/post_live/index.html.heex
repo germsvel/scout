@@ -12,9 +12,9 @@
   rows={@streams.posts}
   row_click={fn {_id, post} -> JS.navigate(~p"/posts/#{post}") end}
 >
-  <:col :let={{_id, post}} label="Body"><%= post.body %></:col>
-  <:col :let={{_id, post}} label="Draft"><%= post.draft %></:col>
-  <:col :let={{_id, post}} label="Published date"><%= post.published_date %></:col>
+  <:col :let={{_id, post}} label="Body">{post.body}</:col>
+  <:col :let={{_id, post}} label="Draft">{post.draft}</:col>
+  <:col :let={{_id, post}} label="Published date">{post.published_date}</:col>
   <:action :let={{_id, post}}>
     <div class="sr-only">
       <.link navigate={~p"/posts/#{post}"}>Show</.link>

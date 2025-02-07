@@ -43,7 +43,7 @@ defmodule ScoutWeb do
         layouts: [html: ScoutWeb.Layouts]
 
       import Plug.Conn
-      import ScoutWeb.Gettext
+      use Gettext, backend: ScoutWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -85,7 +85,7 @@ defmodule ScoutWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import ScoutWeb.CoreComponents
-      import ScoutWeb.Gettext
+      use Gettext, backend: ScoutWeb.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

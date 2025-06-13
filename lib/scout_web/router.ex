@@ -32,6 +32,7 @@ defmodule ScoutWeb.Router do
       live "/posts/:id/show/edit", PostLive.Show, :edit
 
       live "/counter", CounterLive
+      live "/ordinal", OrdinalInputsLive
     end
   end
 

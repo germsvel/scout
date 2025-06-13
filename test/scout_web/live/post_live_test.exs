@@ -1,5 +1,5 @@
 defmodule ScoutWeb.PostLiveTest do
-  use ScoutWeb.ConnCase
+  use ScoutWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
   import Scout.TimelineFixtures, only: [post_fixture: 0]

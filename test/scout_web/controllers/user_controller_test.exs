@@ -1,5 +1,5 @@
 defmodule ScoutWeb.UserControllerTest do
-  use ScoutWeb.ConnCase
+  use ScoutWeb.ConnCase, async: true
 
   import Scout.AccountsFixtures, only: [user_fixture: 0]
 

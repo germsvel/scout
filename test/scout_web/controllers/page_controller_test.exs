@@ -1,5 +1,5 @@
 defmodule ScoutWeb.PageControllerTest do
-  use ScoutWeb.ConnCase
+  use ScoutWeb.ConnCase, async: true
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")

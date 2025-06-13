@@ -1,5 +1,5 @@
 defmodule Scout.AccountsTest do
-  use Scout.DataCase
+  use Scout.DataCase, async: true
 
   alias Scout.Accounts
 
